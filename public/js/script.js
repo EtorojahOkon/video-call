@@ -1,5 +1,5 @@
-const host = location.origin.replace(/^https/, 'wss')
-const ws = new WebSocket(host);
+const host = location.origin.replace(/^http/, 'ws')
+const ws = new WebSocket('wss://video-call.eu-4.evennode.com');
 
 const constraints = {
     audio: true,
@@ -60,12 +60,7 @@ addStream = (stream) => {
 
 /* Event Listeners*/
 ws.addEventListener('open', function open() {
-    console.log('ok')
-    ws.send(JSON.stringify({
-        status : 'joined',
-        'id' : peerId,
-        'name' : user
-    }))
+    
 });
 
 ws.addEventListener('message', function message(message) {
@@ -81,6 +76,11 @@ ws.addEventListener('message', function message(message) {
 
 peer.on("open", (id) => {
     peerId = id
+        ws.send(JSON.stringify({
+        status : 'joined',
+        'id' : peerId,
+        'name' : user
+    }))
 });
 
 peer.on("call", (call) => {
